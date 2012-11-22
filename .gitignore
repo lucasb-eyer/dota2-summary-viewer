@@ -12,3 +12,9 @@ logs
 results
 
 npm-debug.log
+
+data/replays/*
+data/output/*
+*.swp
+*~
+node_modules
