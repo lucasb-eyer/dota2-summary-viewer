@@ -22,7 +22,7 @@ if __name__ == "__main__":
     demoFile = path.basename(demoFilePath)
     demoFileName, demoFileExt = path.splitext(demoFile)
     
-    #make sure the output goes to the right place
+    #make sure the output goes to the right place yadda yadda files
     scriptDir = os.path.realpath(__file__)
     destinationDirectory = path.normpath(
         path.join(scriptDir,"..","..","data","output",demoFileName))
@@ -35,6 +35,12 @@ if __name__ == "__main__":
         logging.error("Creating new directory:'%s'"%(destinationDirectory,))
         os.mkdir(destinationDirectory)
 
-    #TODO: call dota2py summary script to process the .dem, then produce the fun stuff - summary.json etc
-    os.system("dota2py_summary --out %s %s"%(
-        path.join(destinationDirectory,"summary.json"), demoFilePath))
+    #preprocess .dem file (to demson)
+    demoDemsonPath = path.join(destinationDirectory,"extract.demson")
+    os.system("demoinfo2 %s > %s"%(
+        demoFilePath,demoDemsonPath))
+
+    #call dota2info summary script to process the .demson to the fun stuff - summary.json etc
+    demoSummaryPath = path.join(destinationDirectory,"summary.json")
+    os.system("dota2info_summary --out %s %s"%(
+        demoSummaryPath, demoDemsonPath))
