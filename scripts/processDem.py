@@ -35,12 +35,23 @@ if __name__ == "__main__":
         logging.error("Creating new directory:'%s'"%(destinationDirectory,))
         os.mkdir(destinationDirectory)
 
-    #preprocess .dem file (to demson)
-    demoDemsonPath = path.join(destinationDirectory,"extract.demson")
+    print ("Producing .demson from .dem")
+    demsonPath = path.join(destinationDirectory,"extract.demson")
     os.system("demoinfo2 %s > %s"%(
-        demoFilePath,demoDemsonPath))
+        demoFilePath,demsonPath))
 
+    print ("Producing translated combatlog")
+    combatlogPath = path.join(destinationDirectory,"combatlog.demson")
+    os.system("dota2info_combatlog < %s > %s"%(
+        demsonPath,combatlogPath))
+
+    print ("Producing faction conflict data")
+    factionConflictPath = path.join(destinationDirectory,"factionConflict.json")
+    os.system("dota2info_factionConflict < %s > %s"%(
+        demsonPath,factionConflictPath))
+
+    #TODO: once it actually works
     #call dota2info summary script to process the .demson to the fun stuff - summary.json etc
-    demoSummaryPath = path.join(destinationDirectory,"summary.json")
-    os.system("dota2info_summary --out %s %s"%(
-        demoSummaryPath, demoDemsonPath))
+    #demoSummaryPath = path.join(destinationDirectory,"summary.json")
+    #os.system("dota2info_summary --out %s %s"%(
+    #    demoSummaryPath, demoDemsonPath))
