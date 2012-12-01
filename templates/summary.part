@@ -1,0 +1,12 @@
+<h1>Match summary for {{ summary.match_id }}</h1>
+<h2>Players</h2>
+<ul>
+	{% for player in summary.players %}
+	<li><a>{{player.index}}: {{player.name}}</a></li>
+	{% endfor %}
+<h2>Chat</h2>
+<ul>
+	{% for message in summary.chatlog %}
+		<li><a>{{message.playerName}}: {{message.text}}</a></li>
+	{% endfor %}
+</ul>
