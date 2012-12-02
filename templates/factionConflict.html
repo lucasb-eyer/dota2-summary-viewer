@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block title %} factionConflict! {% endblock %}
-{% block body %} nothing. {% endblock %}
+{% block extraScripts %}
+	<script>var data = {{data}}</script>
+	<script src="{{staticDir}}/js/factionConflict.js"></script>
+{%endblock%}
 
+{% block body %} 
+<div id="chartDeathsAll">
+	<svg></svg>
+</div>
+{% endblock %}

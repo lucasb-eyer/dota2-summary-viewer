@@ -1,7 +1,7 @@
 #! /usr/bin/python
 """
-Processes a given .dem file and puts the results in the data folder 
-structure, so it can be easily visualized with the viewer (and no 
+Processes a given .dem file and puts the results in the data folder
+structure, so it can be easily visualized with the viewer (and no
 file mess is created)
 
 usage: [script] path/to/replay.dem
@@ -21,10 +21,12 @@ class Renderer():
         self.templateDir = templateDir
         self.staticDir = staticDir #absolute path to static files
         loader = jinja2.FileSystemLoader(self.templateDir)
-        self.env = jinja2.Environment(loader=loader)
+        #leave the json alone, autoescape!
+        self.env = jinja2.Environment(loader=loader,autoescape=False)
 
     def render(self, templateName, data):
         template = self.getTemplateFile(templateName)
+        print data
         return template.render(data=data, staticDir=self.staticDir)
 
     def getTemplateFile(self, templateName):
@@ -32,7 +34,7 @@ class Renderer():
 
     def renderToAndFromFile(self, outFilePath, templateName, inJsonFilePath):
         dataFile = open(inJsonFilePath,"r")
-        data = json.loads(dataFile.read())
+        data = dataFile.read() #json data as string
 
         outFile = open(outFilePath, "w")
         outFile.write(self.render(templateName, data))
